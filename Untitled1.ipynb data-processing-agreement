@@ -1,0 +1,337 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMGmMHQM0CKZGmD1p0NmDoE",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Sushma-20112/ai/blob/main/Untitled1.ipynb%20data-processing-agreement\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install pdfplumber\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Sy8QgzSP_vB6",
+        "outputId": "59b01c20-2eac-4295-f1c5-aef32b8952cb"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Collecting pdfplumber\n",
+            "  Downloading pdfplumber-0.11.7-py3-none-any.whl.metadata (42 kB)\n",
+            "\u001b[?25l     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/42.8 kB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m42.8/42.8 kB\u001b[0m \u001b[31m1.8 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hCollecting pdfminer.six==20250506 (from pdfplumber)\n",
+            "  Downloading pdfminer_six-20250506-py3-none-any.whl.metadata (4.2 kB)\n",
+            "Requirement already satisfied: Pillow>=9.1 in /usr/local/lib/python3.12/dist-packages (from pdfplumber) (11.3.0)\n",
+            "Collecting pypdfium2>=4.18.0 (from pdfplumber)\n",
+            "  Downloading pypdfium2-4.30.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (48 kB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m48.5/48.5 kB\u001b[0m \u001b[31m2.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hRequirement already satisfied: charset-normalizer>=2.0.0 in /usr/local/lib/python3.12/dist-packages (from pdfminer.six==20250506->pdfplumber) (3.4.3)\n",
+            "Requirement already satisfied: cryptography>=36.0.0 in /usr/local/lib/python3.12/dist-packages (from pdfminer.six==20250506->pdfplumber) (43.0.3)\n",
+            "Requirement already satisfied: cffi>=1.12 in /usr/local/lib/python3.12/dist-packages (from cryptography>=36.0.0->pdfminer.six==20250506->pdfplumber) (2.0.0)\n",
+            "Requirement already satisfied: pycparser in /usr/local/lib/python3.12/dist-packages (from cffi>=1.12->cryptography>=36.0.0->pdfminer.six==20250506->pdfplumber) (2.23)\n",
+            "Downloading pdfplumber-0.11.7-py3-none-any.whl (60 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m60.0/60.0 kB\u001b[0m \u001b[31m4.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading pdfminer_six-20250506-py3-none-any.whl (5.6 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m5.6/5.6 MB\u001b[0m \u001b[31m52.6 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading pypdfium2-4.30.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.8 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m2.8/2.8 MB\u001b[0m \u001b[31m69.9 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hInstalling collected packages: pypdfium2, pdfminer.six, pdfplumber\n",
+            "Successfully installed pdfminer.six-20250506 pdfplumber-0.11.7 pypdfium2-4.30.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pdfplumber\n",
+        "\n",
+        "file_path = \"/content/Data-Processing-Agreement-MetaCompliance-Ltd-23.06.25.pdf\"\n",
+        "\n",
+        "with pdfplumber.open(file_path) as pdf:\n",
+        "    page = pdf.pages[5]  # 6th page (index 0-based)\n",
+        "    content = page.extract_text()\n",
+        "\n",
+        "print(content)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "9s63DM2WEPW6",
+        "outputId": "71be539f-a209-4a81-9bb1-02297eea0acc"
+      },
+      "execution_count": 20,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "obligations under the Data Protection Laws or this DPA (including, without limitation, its breach of any\n",
+            "requirement under clause 4.2 of this DPA).\n",
+            "To the extent permitted by Data Protection Laws and subject to the exclusions detailed in clause 12.2 of\n",
+            "this DPA, the total liability of each party under or in connection with this DPA howsoever caused shall be\n",
+            "subject to the exclusions and limitations of liability set out in the Contract.\n",
+            "Annex A\n",
+            "Personal Data Processing Purposes and Details\n",
+            "Subject matter of processing Details Applies to:\n",
+            "Purpose System access All Customers\n",
+            "System administration\n",
+            "Delivery of system content according to\n",
+            "modules subscribed to. See below:\n",
+            "Policies, Knowledge Assessments Customers subscribing to Policy\n",
+            "modules (PolicyLite, MetaEngage\n",
+            "and MetaPolicy)\n",
+            "eLearning, other Media Customers subscribing to\n",
+            "Elearning modules\n",
+            "(MetaLearning Fusion)\n",
+            "Privacy Surveys Customers subscribing to\n",
+            "MetaPrivacy module\n",
+            "Incident Reviews Customers subscribing to\n",
+            "MetaIncident module\n",
+            "Simulated Phishing Campaigns Customers subscribing to\n",
+            "MetaPhish\n",
+            "SCORM transfer to Customer LMS Customers subscribing to SCORM\n",
+            "transfer\n",
+            "Transform static PDF documents into an Customers subscribing to\n",
+            "effective training experience Content to Course\n",
+            "Transform Customer scripts into a short Customers subscribing to Virtual\n",
+            "AI generated video Presenter Video\n",
+            "Types of Personal Data First Name, Last Name, E-mail Address, All Customers\n",
+            "IP Address, Department, Training Record\n",
+            "Active Directory Organisation Unit (OU) Customers using Azure AD or on\n",
+            "premise AD\n",
+            "LMS ID Customers with subscriptions to\n",
+            "SCORM transfer\n",
+            "Personal Data that Customer has All Customers\n",
+            "included in Customer Data.\n",
+            "Use of AI AI generated Phish email creation Customers with Premium Plus\n",
+            "Security Awareness packages\n",
+            "(including Multi-Language\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(f\"Extracted text using pdfplumber : {content}\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "lXHFQ7TYEdaN",
+        "outputId": "7e63e062-2339-49ff-c2ad-00a435bd58ef"
+      },
+      "execution_count": 21,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Extracted text using pdfplumber : obligations under the Data Protection Laws or this DPA (including, without limitation, its breach of any\n",
+            "requirement under clause 4.2 of this DPA).\n",
+            "To the extent permitted by Data Protection Laws and subject to the exclusions detailed in clause 12.2 of\n",
+            "this DPA, the total liability of each party under or in connection with this DPA howsoever caused shall be\n",
+            "subject to the exclusions and limitations of liability set out in the Contract.\n",
+            "Annex A\n",
+            "Personal Data Processing Purposes and Details\n",
+            "Subject matter of processing Details Applies to:\n",
+            "Purpose System access All Customers\n",
+            "System administration\n",
+            "Delivery of system content according to\n",
+            "modules subscribed to. See below:\n",
+            "Policies, Knowledge Assessments Customers subscribing to Policy\n",
+            "modules (PolicyLite, MetaEngage\n",
+            "and MetaPolicy)\n",
+            "eLearning, other Media Customers subscribing to\n",
+            "Elearning modules\n",
+            "(MetaLearning Fusion)\n",
+            "Privacy Surveys Customers subscribing to\n",
+            "MetaPrivacy module\n",
+            "Incident Reviews Customers subscribing to\n",
+            "MetaIncident module\n",
+            "Simulated Phishing Campaigns Customers subscribing to\n",
+            "MetaPhish\n",
+            "SCORM transfer to Customer LMS Customers subscribing to SCORM\n",
+            "transfer\n",
+            "Transform static PDF documents into an Customers subscribing to\n",
+            "effective training experience Content to Course\n",
+            "Transform Customer scripts into a short Customers subscribing to Virtual\n",
+            "AI generated video Presenter Video\n",
+            "Types of Personal Data First Name, Last Name, E-mail Address, All Customers\n",
+            "IP Address, Department, Training Record\n",
+            "Active Directory Organisation Unit (OU) Customers using Azure AD or on\n",
+            "premise AD\n",
+            "LMS ID Customers with subscriptions to\n",
+            "SCORM transfer\n",
+            "Personal Data that Customer has All Customers\n",
+            "included in Customer Data.\n",
+            "Use of AI AI generated Phish email creation Customers with Premium Plus\n",
+            "Security Awareness packages\n",
+            "(including Multi-Language\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pypdfium2\n",
+        "pdf = pypdfium2.PdfDocument(file_path)\n",
+        "\n",
+        "page = pdf.get_page(5)\n",
+        "\n",
+        "text = page.get_textpage().get_text_bounded()\n",
+        "\n",
+        "print(text)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Pqm2V0zKEoGv",
+        "outputId": "b110b4b6-d47d-4f34-a676-c9035ae661f6"
+      },
+      "execution_count": 23,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "obligations under the Data Protection Laws or this DPA (including, without limitation, its breach of any \r\n",
+            "requirement under clause 4.2 of this DPA).\r\n",
+            "To the extent permitted by Data Protection Laws and subject to the exclusions detailed in clause 12.2 of \r\n",
+            "this DPA, the total liability of each party under or in connection with this DPA howsoever caused shall be \r\n",
+            "subject to the exclusions and limitations of liability set out in the Contract. \r\n",
+            "Annex A\r\n",
+            "Personal Data Processing Purposes and Details\r\n",
+            "Subject matter of processing Details Applies to:\r\n",
+            "Purpose System access\r\n",
+            "System administration \r\n",
+            "Delivery of system content according to \r\n",
+            "modules subscribed to. See below:\r\n",
+            "All Customers\r\n",
+            "Policies, Knowledge Assessments Customers subscribing to Policy \r\n",
+            "modules (PolicyLite, MetaEngage \r\n",
+            "and MetaPolicy)\r\n",
+            "eLearning, other Media Customers subscribing to \r\n",
+            "Elearning modules \r\n",
+            "(MetaLearning Fusion)\r\n",
+            "Privacy Surveys Customers subscribing to \r\n",
+            "MetaPrivacy module\r\n",
+            "Incident Reviews Customers subscribing to \r\n",
+            "MetaIncident module\r\n",
+            "Simulated Phishing Campaigns Customers subscribing to \r\n",
+            "MetaPhish\r\n",
+            "SCORM transfer to Customer LMS Customers subscribing to SCORM \r\n",
+            "transfer\r\n",
+            "Transform static PDF documents into an \r\n",
+            "effective training experience\r\n",
+            "Customers subscribing to \r\n",
+            "Content to Course\r\n",
+            "Transform Customer scripts into a short \r\n",
+            "AI generated video\r\n",
+            "Customers subscribing to Virtual \r\n",
+            "Presenter Video\r\n",
+            "Types of Personal Data First Name, Last Name, E-mail Address, \r\n",
+            "IP Address, Department, Training Record \r\n",
+            "All Customers\r\n",
+            "Active Directory Organisation Unit (OU) Customers using Azure AD or on \r\n",
+            "premise AD\r\n",
+            "LMS ID Customers with subscriptions to \r\n",
+            "SCORM transfer\r\n",
+            "Personal Data that Customer has \r\n",
+            "included in Customer Data.\r\n",
+            "All Customers\r\n",
+            "Use of AI AI generated Phish email creation Customers with Premium Plus \r\n",
+            "Security Awareness packages \r\n",
+            "(including Multi-Language \n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install \"camelot-py[base]\""
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "IqUUgQymEtaj",
+        "outputId": "8e23f47c-f32a-4674-b108-a8faa4c11965"
+      },
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Collecting camelot-py[base]\n",
+            "  Downloading camelot_py-1.0.9-py3-none-any.whl.metadata (9.8 kB)\n",
+            "\u001b[33mWARNING: camelot-py 1.0.9 does not provide the extra 'base'\u001b[0m\u001b[33m\n",
+            "\u001b[0mRequirement already satisfied: click>=8.0.1 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (8.2.1)\n",
+            "Requirement already satisfied: chardet>=5.1.0 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (5.2.0)\n",
+            "Requirement already satisfied: numpy>=1.26.1 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (2.0.2)\n",
+            "Requirement already satisfied: openpyxl>=3.1.0 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (3.1.5)\n",
+            "Requirement already satisfied: pdfminer-six>=20240706 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (20250506)\n",
+            "Collecting pypdf<6.0,>=4.0 (from camelot-py[base])\n",
+            "  Downloading pypdf-5.9.0-py3-none-any.whl.metadata (7.1 kB)\n",
+            "Requirement already satisfied: pandas>=2.2.2 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (2.2.2)\n",
+            "Requirement already satisfied: tabulate>=0.9.0 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (0.9.0)\n",
+            "Requirement already satisfied: opencv-python-headless>=4.7.0.68 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (4.12.0.88)\n",
+            "Requirement already satisfied: pypdfium2>=4 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (4.30.0)\n",
+            "Requirement already satisfied: pillow>=10.4.0 in /usr/local/lib/python3.12/dist-packages (from camelot-py[base]) (11.3.0)\n",
+            "Requirement already satisfied: et-xmlfile in /usr/local/lib/python3.12/dist-packages (from openpyxl>=3.1.0->camelot-py[base]) (2.0.0)\n",
+            "Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.12/dist-packages (from pandas>=2.2.2->camelot-py[base]) (2.9.0.post0)\n",
+            "Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.12/dist-packages (from pandas>=2.2.2->camelot-py[base]) (2025.2)\n",
+            "Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.12/dist-packages (from pandas>=2.2.2->camelot-py[base]) (2025.2)\n",
+            "Requirement already satisfied: charset-normalizer>=2.0.0 in /usr/local/lib/python3.12/dist-packages (from pdfminer-six>=20240706->camelot-py[base]) (3.4.3)\n",
+            "Requirement already satisfied: cryptography>=36.0.0 in /usr/local/lib/python3.12/dist-packages (from pdfminer-six>=20240706->camelot-py[base]) (43.0.3)\n",
+            "Requirement already satisfied: cffi>=1.12 in /usr/local/lib/python3.12/dist-packages (from cryptography>=36.0.0->pdfminer-six>=20240706->camelot-py[base]) (2.0.0)\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.12/dist-packages (from python-dateutil>=2.8.2->pandas>=2.2.2->camelot-py[base]) (1.17.0)\n",
+            "Requirement already satisfied: pycparser in /usr/local/lib/python3.12/dist-packages (from cffi>=1.12->cryptography>=36.0.0->pdfminer-six>=20240706->camelot-py[base]) (2.23)\n",
+            "Downloading pypdf-5.9.0-py3-none-any.whl (313 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m313.2/313.2 kB\u001b[0m \u001b[31m6.1 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading camelot_py-1.0.9-py3-none-any.whl (66 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m66.8/66.8 kB\u001b[0m \u001b[31m4.9 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hInstalling collected packages: pypdf, camelot-py\n",
+            "Successfully installed camelot-py-1.0.9 pypdf-5.9.0\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
